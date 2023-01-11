@@ -1,0 +1,94 @@
+<html>
+    <head>
+        <title>WS Consume</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    </head>
+    <body>
+        <div>Data Test Sender</div>
+        <hr>
+        <script>
+			const url = "http://localhost:8080/POST";
+			function post(){
+				let newNIM = document.getElementById("mynim").value;
+				let name = document.getElementById("name").value;
+				let date = document.getElementById("birthdate").value;
+				let dataText = {"nim":newNIM,"name":name,"tglLahir":date};
+				let dataJson = JSON.stringify(dataText);
+				$.ajax({
+					url: url,
+					method: 'POST',
+					data: dataJson,
+					contentType: 'application/json',
+					dataType: 'text',
+					success: function(result){
+						console.log(result);
+					}
+				});
+			}
+			
+			function put(){
+				const urlp = "http://localhost:8080/PUT";
+				let editNIM = document.getElementById("mynim").value;
+				let name = document.getElementById("name").value;
+				let date = document.getElementById("birthdate").value;
+				let dataText = {"nim":editNIM,"name":name,"tglLahir":date};
+				let dataJson = JSON.stringify(dataText);
+				$.ajax({
+					url: urlp,
+					method: 'PUT',
+					data: dataJson,
+					contentType: 'application/json',
+					dataType: 'text',
+					success: function(result){
+						document.getElementById("viewer").innerHTML = result;
+
+					}
+				});
+			}
+			
+			function get(){
+				const urlg = "http://localhost:8080/GET";
+				$.ajax({
+					url: urlg,
+					method: 'GET',
+					dataType: 'text',
+					success: function(result){
+						document.getElementById("viewer").innerHTML = result;
+					}
+				});
+			}
+			
+			function delNIM(){
+				const urlg = "http://localhost:8080/DELETE";
+				let editNIM = document.getElementById("mynim").value;
+				let name = document.getElementById("name").value;
+				let date = document.getElementById("birthdate").value;
+				let dataText = {"nim":editNIM,"name":name,"tglLahir":date};
+				let dataJson = JSON.stringify(dataText);
+				$.ajax({
+					url: urlg,
+					method: 'DELETE',
+					data: dataJson,
+					contentType: 'application/json',
+					dataType: 'text',
+					success: function(result){
+						document.getElementById("viewer").innerHTML = result;
+					}
+				});
+			}
+			
+		</script>
+		<input type="text" id="mynim" name="mynim">
+		<input type="text" id="name" name="name">
+		<input type="date" id="birthdate" name="birthdate">
+		<hr>
+		<button onclick="get()">Get The Data from Web Server</button><br>
+		<button onclick="post()">Send The Data to Web Server</button><br>
+		<button onclick="put()">Edit The Data of Web Server</button><br>
+		<button onclick="delNIM()">Delete The Data of Web Server</button>
+		<hr>
+		<div id="viewer"></div>
+    </body>
+</html>
